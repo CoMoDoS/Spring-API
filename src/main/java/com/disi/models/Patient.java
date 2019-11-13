@@ -17,19 +17,19 @@ public class Patient {
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
-    @Column(name = "name", nullable = false, length = 200)
+    @Column(name = "name",  length = 200)
     private String name;
 
-    @Column(name = "birthdate", nullable = false)
+    @Column(name = "birthdate")
     private Date birthdate;
 
-    @Column(name = "gender", nullable = false)
+    @Column(name = "gender")
     private String gender;
 
     @Column(name = "address")
     private String address;
 
-    @Column(name = "medicalRecord", nullable = false, length = 500)
+    @Column(name = "medicalRecord", length = 500)
     private String medicalRecord;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -37,7 +37,7 @@ public class Patient {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "caregiver_id",  nullable = false)
+    @JoinColumn(name = "caregiver_id")
     private Caregiver caregiver;
 
     @Column(name = "status")

@@ -1,5 +1,6 @@
 package com.disi.controller;
 
+import com.disi.dto.PatientDTO;
 import com.disi.dto.UserDTO;
 import com.disi.models.User;
 import com.disi.service.UserService;
@@ -46,6 +47,12 @@ public class UserController {
 
     }
 
+    @GetMapping()
+    public UserDTO getUserById(@RequestParam int id){
+        User user = userService.getUserById(id);
+        return new ModelMapper().map(user, UserDTO.class);
+    }
+
     @GetMapping("patient/get")
     public UserDTO getPatient(@RequestParam int id){
 
@@ -54,16 +61,16 @@ public class UserController {
     }
 
     @GetMapping("/patient/all")
-    public List<UserDTO> getAllPatients(){
+    public List<PatientDTO> getAllPatients(){
 
-        List<User> users = userService.getAllPatients();
-        Type usersType = new TypeToken<List<UserDTO>>() {}.getType();
-        return new ModelMapper().map(users, usersType);
+        List<PatientDTO> users = userService.getAllPatients();
+
+        return users;
     }
 
     @PostMapping("/patient/add")
-    public UserDTO addPatient(@RequestBody User user){
-        return new ModelMapper().map(userService.addPatient(user), UserDTO.class);
+    public PatientDTO addPatient(@RequestBody PatientDTO user){
+        return userService.addPatient(user);
     }
 
     @PutMapping("/bucatar/edit")
@@ -79,7 +86,7 @@ public class UserController {
     @GetMapping("/medic")
     public void createAdmin(){
 
-        User user = new User("medic","medic@medic.com","MEDIC","ADMIN");
+        User user = new User("medic@medic.com","medic","MEDIC","ADMIN");
         userService.createAdmin(user);
     }
 }

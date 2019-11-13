@@ -1,9 +1,13 @@
 package com.disi.service;
 
+import com.disi.dto.PatientDTO;
 import com.disi.errorHandler.EntityValidationException;
 import com.disi.errorHandler.ResourceNotFoundException;
+import com.disi.models.Caregiver;
 import com.disi.models.CustomUserDetails;
+import com.disi.models.Patient;
 import com.disi.models.User;
+import com.disi.repository.PatientRepository;
 import com.disi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +28,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PatientRepository patientRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -49,6 +56,14 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
+    public User getUserById(int id){
+        Optional<User> user = userRepository.findById(id);
+        if(user.isPresent())
+            return user.get();
+        else
+            throw new ResourceNotFoundException(User.class.getSimpleName());
+    }
+
     public User getPatient(int id){
         Optional<User> user = userRepository.findByIdAndType(id, "PATIENT");
         if(user.isPresent())
@@ -57,18 +72,75 @@ public class UserService implements UserDetailsService {
             throw new ResourceNotFoundException(User.class.getSimpleName());
     }
 
-    public List<User> getAllPatients(){
-        return userRepository.findAllByType("PATIENT");
+    public List<PatientDTO> getAllPatients(){
+        List<User> users =  userRepository.findAllByType("PATIENT");
+        List<PatientDTO> patientDTOS = new ArrayList<>();
+
+        for (User u: users) {
+           Patient patient1 = patientRepository.findByUser(u);
+           if(patient1 != null){
+               Patient patient = patient1;
+               PatientDTO patDTO = new PatientDTO();
+               patDTO.setId(patient.getId());
+               patDTO.setEmail(u.getEmail());
+               patDTO.setStatus(u.getStatus());
+               patDTO.setType(u.getType());
+               patDTO.setName(patient.getName());
+               patDTO.setBirthdate(patient.getBirthdate());
+               patDTO.setGender(patient.getGender());
+               patDTO.setAddress(patient.getAddress());
+               patDTO.setMedicalRecord(patient.getMedicalRecord());
+               patDTO.setUser_id(u.getId());
+               if( patient.getCaregiver() != null )
+                    patDTO.setCaregiver_id(patient.getCaregiver().getId() );
+               else
+                   patDTO.setCaregiver_id(0);
+               patientDTOS.add(patDTO);
+           }
+        }
+        return patientDTOS;
     }
 
-    public User addPatient(User user){
-        validateUser(user);
-        findUserByEmail(user.getEmail());
-        user.setPassword(passwordEncoder().encode(user.getPassword()));
-        user.setType("PATIENT");
-        User userToSave = new User(user.getStatus(), user.getEmail(), user.getPassword(), user.getType());
-        userRepository.save(userToSave);
-        return userToSave;
+    public PatientDTO addPatient(PatientDTO user){
+//        validateUser(user);
+//        findUserByEmail(user.getEmail());
+        User userPatient = new User();
+        userPatient.setEmail(user.getEmail());
+        userPatient.setPassword(passwordEncoder().encode(user.getPassword()));
+        userPatient.setStatus(user.getStatus());
+        userPatient.setType("PATIENT");
+        User usrPat =  userRepository.save(userPatient);
+//        Optional<User> usrPat = userRepository.findByEmail(user.getEmail());
+        Patient patToReturn = new Patient();
+        if(usrPat != null){
+            Caregiver caregiver = new Caregiver(0,"auto");
+            Patient patient = new Patient();
+            patient.setName(user.getName());
+            patient.setAddress(user.getAddress());
+            patient.setBirthdate(user.getBirthdate());
+            patient.setGender(user.getGender());
+            patient.setMedicalRecord(user.getMedicalRecord());
+            patient.setStatus(user.getStatus());
+            patient.setUser(usrPat);
+            patient.setCaregiver(caregiver);
+            patToReturn =  patientRepository.save(patient);
+        }
+
+        PatientDTO patDTO = new PatientDTO();
+        patDTO.setId(patToReturn.getId());
+        patDTO.setEmail(usrPat.getEmail());
+        patDTO.setStatus(usrPat.getStatus());
+        patDTO.setType(usrPat.getType());
+        patDTO.setName(patToReturn.getName());
+        patDTO.setBirthdate(patToReturn.getBirthdate());
+        patDTO.setGender(patToReturn.getGender());
+        patDTO.setAddress(patToReturn.getAddress());
+        patDTO.setMedicalRecord(patToReturn.getMedicalRecord());
+        patDTO.setUser_id(usrPat.getId());
+        patDTO.setCaregiver_id(patToReturn.getCaregiver().getId());
+
+
+        return patDTO;
     }
 
     public User editPatient(int id, User user){
