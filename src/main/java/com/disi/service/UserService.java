@@ -49,30 +49,30 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public User getBucatar(int id){
-        Optional<User> user = userRepository.findByIdAndType(id, "BUCATAR");
+    public User getPatient(int id){
+        Optional<User> user = userRepository.findByIdAndType(id, "PATIENT");
         if(user.isPresent())
             return user.get();
         else
             throw new ResourceNotFoundException(User.class.getSimpleName());
     }
 
-    public List<User> getAllBucatars(){
-        return userRepository.findAllByType("BUCATAR");
+    public List<User> getAllPatients(){
+        return userRepository.findAllByType("PATIENT");
     }
 
-    public User addBucatar(User user){
+    public User addPatient(User user){
         validateUser(user);
         findUserByEmail(user.getEmail());
         user.setPassword(passwordEncoder().encode(user.getPassword()));
-        user.setType("BUCATAR");
+        user.setType("PATIENT");
         User userToSave = new User(user.getStatus(), user.getEmail(), user.getPassword(), user.getType());
         userRepository.save(userToSave);
         return userToSave;
     }
 
-    public User editBucatar(int id, User user){
-        Optional<User> userToBeEdited = userRepository.findByIdAndType(id,"BUCATAR");
+    public User editPatient(int id, User user){
+        Optional<User> userToBeEdited = userRepository.findByIdAndType(id,"PATIENT");
         if(userToBeEdited.isPresent()){
             //validateUser(user);
             //findUserByEmail(user.getEmail());
@@ -88,8 +88,8 @@ public class UserService implements UserDetailsService {
 
     }
 
-    public User deleteBucatar(int id){
-        Optional<User> user = userRepository.findByIdAndType(id,"BUCATAR");
+    public User deletePatient(int id){
+        Optional<User> user = userRepository.findByIdAndType(id,"PATIENT");
         if(user.isPresent())
             userRepository.delete(user.get());
         else

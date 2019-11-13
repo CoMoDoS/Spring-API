@@ -46,40 +46,40 @@ public class UserController {
 
     }
 
-    @GetMapping("bucatar/get")
-    public UserDTO getBucatar(@RequestParam int id){
+    @GetMapping("patient/get")
+    public UserDTO getPatient(@RequestParam int id){
 
-        User user = userService.getBucatar(id);
+        User user = userService.getPatient(id);
         return new ModelMapper().map(user, UserDTO.class);
     }
 
-    @GetMapping("/bucatar/all")
-    public List<UserDTO> getAllBucatar(){
+    @GetMapping("/patient/all")
+    public List<UserDTO> getAllPatients(){
 
-        List<User> users = userService.getAllBucatars();
+        List<User> users = userService.getAllPatients();
         Type usersType = new TypeToken<List<UserDTO>>() {}.getType();
         return new ModelMapper().map(users, usersType);
     }
 
-    @PostMapping("/bucatar/add")
-    public UserDTO addBucatar(@RequestBody User user){
-        return new ModelMapper().map(userService.addBucatar(user), UserDTO.class);
+    @PostMapping("/patient/add")
+    public UserDTO addPatient(@RequestBody User user){
+        return new ModelMapper().map(userService.addPatient(user), UserDTO.class);
     }
 
     @PutMapping("/bucatar/edit")
-    public UserDTO editBucatar(@RequestParam int id, @RequestBody User user){
-        return new ModelMapper().map(userService.editBucatar(id,user), UserDTO.class);
+    public UserDTO editPatient(@RequestParam int id, @RequestBody User user){
+        return new ModelMapper().map(userService.editPatient(id,user), UserDTO.class);
     }
 
     @DeleteMapping("/bucatar/delete")
-    public UserDTO deleteBucatar(@RequestParam int id){
-        return new ModelMapper().map(userService.deleteBucatar(id), UserDTO.class);
+    public UserDTO deletePatient(@RequestParam int id){
+        return new ModelMapper().map(userService.deletePatient(id), UserDTO.class);
     }
 
-    @GetMapping("/admin")
+    @GetMapping("/medic")
     public void createAdmin(){
 
-        User user = new User("admin","admin@admin.com","admin","ADMIN");
+        User user = new User("medic","medic@medic.com","MEDIC","ADMIN");
         userService.createAdmin(user);
     }
 }
