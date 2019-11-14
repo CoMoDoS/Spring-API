@@ -39,10 +39,21 @@ public class MedicationService {
             medToSave.setDosage(medication.getDosage());
             medToSave.setName(medication.getName());
             medToSave.setStatus(medication.getStatus());
+            medToSave.setSideEffects(medication.getSideEffects());
             medicationRepository.save(medToSave);
             return medToSave;
         }
         else
             throw new ResourceNotFoundException(Medication.class.getSimpleName());
+    }
+
+    public int deleteMedication(int id){
+        Optional<Medication> medication = medicationRepository.findById(id);
+        if(medication.isPresent()){
+            medicationRepository.delete(medication.get());
+            return id;
+        }else{
+            throw new ResourceNotFoundException(Medication.class.getSimpleName());
+        }
     }
 }
