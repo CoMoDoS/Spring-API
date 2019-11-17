@@ -43,13 +43,13 @@ public class Patient {
     @Column(name = "status")
     private String status;
 
-    @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
-    private List<MedicationPlan> listOfMedicationPlan;
+//    @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
+//    private List<MedicationPlan> listOfMedicationPlan;
 
 
     public Patient () {}
 
-    public Patient(String name, Date birthdate, String gender, String address, String medicalRecord, User user, Caregiver caregiver, String status, List<MedicationPlan> listOfMedicationPlan) {
+    public Patient(String name, Date birthdate, String gender, String address, String medicalRecord, User user, Caregiver caregiver, String status) {
         this.name = name;
         this.birthdate = birthdate;
         this.gender = gender;
@@ -58,7 +58,6 @@ public class Patient {
         this.user = user;
         this.caregiver = caregiver;
         this.status = status;
-        this.listOfMedicationPlan = listOfMedicationPlan;
     }
 
     public Patient(int id, String name){
@@ -138,11 +137,11 @@ public class Patient {
         this.status = status;
     }
 
-    public List<MedicationPlan> getListOfMedicationPlan() {
-        return listOfMedicationPlan;
-    }
-
-    public void setListOfMedicationPlan(List<MedicationPlan> listOfMedicationPlan) {
-        this.listOfMedicationPlan = listOfMedicationPlan;
-    }
+//    public List<MedicationPlan> getListOfMedicationPlan() {
+//        return listOfMedicationPlan;
+//    }
+//
+//    public void setListOfMedicationPlan(List<MedicationPlan> listOfMedicationPlan) {
+//        this.listOfMedicationPlan = listOfMedicationPlan;
+//    }
 }

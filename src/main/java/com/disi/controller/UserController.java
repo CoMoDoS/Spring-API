@@ -1,8 +1,11 @@
 package com.disi.controller;
 
+import com.disi.dto.CaregiverDTO;
 import com.disi.dto.PatientDTO;
 import com.disi.dto.UserDTO;
+import com.disi.models.Caregiver;
 import com.disi.models.User;
+import com.disi.service.CaregiverService;
 import com.disi.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -23,6 +26,34 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private CaregiverService caregiverService;
+
+
+    @PostMapping("/caregiver")
+    public CaregiverDTO addCaregiver(@RequestBody CaregiverDTO caregiverDTO){
+        return caregiverService.add(caregiverDTO);
+    }
+
+    @GetMapping("/caregiver")
+    public CaregiverDTO getCaregiver(@RequestParam int id){
+        return caregiverService.get(id);
+    }
+
+    @GetMapping("/caregiver/all")
+    public List<CaregiverDTO> getAllCaregivers(){
+        return caregiverService.getAll();
+    }
+
+    @PutMapping("/caregiver")
+    public CaregiverDTO updateCaregiver(@RequestParam int id, @RequestBody CaregiverDTO caregiverDTO){
+        return caregiverService.update(id, caregiverDTO);
+    }
+
+    @DeleteMapping("/caregiver")
+    public int deleteCaregiver(@RequestParam int id){
+        return caregiverService.delete(id);
+    }
 
     @PostMapping("/inregistrare")
     public UserDTO addUser(@RequestBody User user) {
@@ -73,15 +104,6 @@ public class UserController {
         return userService.addPatient(user);
     }
 
-    @PutMapping("/bucatar/edit")
-    public UserDTO editPatient(@RequestParam int id, @RequestBody User user){
-        return new ModelMapper().map(userService.editPatient(id,user), UserDTO.class);
-    }
-
-    @DeleteMapping("/bucatar/delete")
-    public UserDTO deletePatient(@RequestParam int id){
-        return new ModelMapper().map(userService.deletePatient(id), UserDTO.class);
-    }
 
     @GetMapping("/medic")
     public void createAdmin(){

@@ -31,21 +31,21 @@ public class Caregiver {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
-    private List<Patient> listOfPatients;
+//    @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
+//    private List<Patient> listOfPatients;
 
     @Column(name = "status")
     private String status;
 
     public Caregiver () { }
 
-    public Caregiver(String name, Date birthdate, String gender, String address, User user, List<Patient> listOfPatients, String status) {
+
+    public Caregiver(String name, Date birthdate, String gender, String address, User user, String status) {
         this.name = name;
         this.birthdate = birthdate;
         this.gender = gender;
         this.address = address;
         this.user = user;
-        this.listOfPatients = listOfPatients;
         this.status = status;
     }
 
@@ -100,14 +100,6 @@ public class Caregiver {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public List<Patient> getListOfPatients() {
-        return listOfPatients;
-    }
-
-    public void setListOfPatients(List<Patient> listOfPatients) {
-        this.listOfPatients = listOfPatients;
     }
 
     public String getStatus() {
