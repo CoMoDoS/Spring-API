@@ -107,21 +107,6 @@ public class CaregiverService {
 
     }
 
-    private CaregiverDTO createDTO(User user, CaregiverDTO caregiver){
-        CaregiverDTO response = new CaregiverDTO();
-        response.setId(caregiver.getId());
-        response.setEmail(user.getEmail());
-        response.setPassword(user.getPassword());
-        response.setType(user.getType());
-        response.setStatus(user.getStatus());
-        response.setName(caregiver.getName());
-        response.setBirthdate(caregiver.getBirthdate());
-        response.setGender(caregiver.getGender());
-        response.setAddress(caregiver.getAddress());
-        response.setUser_id(user.getId());
-        return response;
-    }
-
     private CaregiverDTO createDTO(User user, Caregiver caregiver){
         CaregiverDTO response = new CaregiverDTO();
         response.setId(caregiver.getId());

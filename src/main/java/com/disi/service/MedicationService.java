@@ -1,11 +1,13 @@
 package com.disi.service;
 
+import com.disi.dto.MedicationDTO;
 import com.disi.errorHandler.ResourceNotFoundException;
 import com.disi.models.Medication;
 import com.disi.repository.MedicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,4 +58,5 @@ public class MedicationService {
             throw new ResourceNotFoundException(Medication.class.getSimpleName());
         }
     }
+
 }

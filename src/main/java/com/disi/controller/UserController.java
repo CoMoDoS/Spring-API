@@ -4,8 +4,10 @@ import com.disi.dto.CaregiverDTO;
 import com.disi.dto.PatientDTO;
 import com.disi.dto.UserDTO;
 import com.disi.models.Caregiver;
+import com.disi.models.Patient;
 import com.disi.models.User;
 import com.disi.service.CaregiverService;
+import com.disi.service.PatientService;
 import com.disi.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -28,9 +30,11 @@ public class UserController {
     private UserService userService;
     @Autowired
     private CaregiverService caregiverService;
+    @Autowired
+    private PatientService patientService;
 
 
-    @PostMapping("/caregiver")
+    @PostMapping("/caregiver/add")
     public CaregiverDTO addCaregiver(@RequestBody CaregiverDTO caregiverDTO){
         return caregiverService.add(caregiverDTO);
     }
@@ -45,7 +49,7 @@ public class UserController {
         return caregiverService.getAll();
     }
 
-    @PutMapping("/caregiver")
+    @PutMapping("/caregiver/update")
     public CaregiverDTO updateCaregiver(@RequestParam int id, @RequestBody CaregiverDTO caregiverDTO){
         return caregiverService.update(id, caregiverDTO);
     }
@@ -61,13 +65,13 @@ public class UserController {
         return new ModelMapper().map(userService.addUser(user), UserDTO.class);
     }
 
-//    @RequestMapping("/login")
-//    public UserDTO loginWithOutSecutiry(@RequestBody User user) {
-//
-//        User userLogIn = userService.loginUser(user.getEmail(), user.getPassword());
-//        return new ModelMapper().map(userLogIn, UserDTO.class);
-//
-//    }
+   /*    @RequestMapping("/login")
+      public UserDTO loginWithOutSecutiry(@RequestBody User user) {
+
+          User userLogIn = userService.loginUser(user.getEmail(), user.getPassword());
+          return new ModelMapper().map(userLogIn, UserDTO.class);
+
+    }*/
 
     //TODO
     //available only with spring security
@@ -85,23 +89,23 @@ public class UserController {
     }
 
     @GetMapping("patient/get")
-    public UserDTO getPatient(@RequestParam int id){
+    public PatientDTO getPatient(@RequestParam int id){
 
-        User user = userService.getPatient(id);
-        return new ModelMapper().map(user, UserDTO.class);
+        PatientDTO patient = patientService.getPatient(id);
+        return new ModelMapper().map(patient, PatientDTO.class);
     }
 
     @GetMapping("/patient/all")
     public List<PatientDTO> getAllPatients(){
 
-        List<PatientDTO> users = userService.getAllPatients();
+        List<PatientDTO> users = patientService.getAllPatients();
 
         return users;
     }
 
     @PostMapping("/patient/add")
     public PatientDTO addPatient(@RequestBody PatientDTO user){
-        return userService.addPatient(user);
+        return patientService.addPatient(user);
     }
 
 

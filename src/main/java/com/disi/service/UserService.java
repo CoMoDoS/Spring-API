@@ -64,7 +64,7 @@ public class UserService implements UserDetailsService {
             throw new ResourceNotFoundException(User.class.getSimpleName());
     }
 
-    public User getPatient(int id){
+  /*  public User getPatient(int id){
         Optional<User> user = userRepository.findByIdAndType(id, "PATIENT");
         if(user.isPresent())
             return user.get();
@@ -168,7 +168,7 @@ public class UserService implements UserDetailsService {
             throw new ResourceNotFoundException(User.class.getSimpleName());
 
         return user.get();
-    }
+    }*/
 
     private void findUserByEmail(String email){
         Optional<User> user = userRepository.findByEmail(email);
