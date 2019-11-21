@@ -120,4 +120,15 @@ public class PatientService {
         return response;
     }
 
+    public PatientDTO getByUserId(int id){
+        Optional<User> u = userRepository.findById(id);
+        if(u.isPresent()){
+            User user = u.get();
+            Patient patient = patientRepository.findByUser(user);
+            return new PatientDTO(patient);
+        }else{
+            throw new ResourceNotFoundException(Patient.class.getSimpleName());
+        }
+    }
+
 }

@@ -52,6 +52,11 @@ public class UserController {
         return caregiverService.getAll();
     }
 
+    @GetMapping("/caregiver/byUserId")
+    public CaregiverDTO getByUserId(@RequestParam int id){
+        return caregiverService.getByUserId(id);
+    }
+
     @PutMapping("/caregiver")
     public CaregiverDTO updateCaregiver(@RequestParam int id, @RequestBody CaregiverDTO caregiverDTO){
         return caregiverService.update(id, caregiverDTO);
@@ -130,6 +135,12 @@ public class UserController {
     public List<PatientDTO> getPatientsByCaregiverId(@RequestParam int id){
         return patientService.getByCaregiver(id);
     }
+
+    @GetMapping("/patient/byUserId")
+    public PatientDTO getPatientByUserId(@RequestParam int id){
+        return patientService.getByUserId(id);
+    }
+
 
     /*
         CREATE DEFAULT ADMIN DOCTOR

@@ -66,4 +66,10 @@ public class MedicationController {
     public int deleteMedicationById(@RequestParam int id){
         return medicationService.deleteMedication(id);
     }
+
+    @GetMapping("/getAllByPatientId")
+    public List<MedicationPlanDTO> getAllByPatientId(@RequestParam int id){
+        return medicationPlanService.findAllByPatientId(id);
+    }
+
 }

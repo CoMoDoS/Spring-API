@@ -98,4 +98,15 @@ public class CaregiverService {
             throw new ResourceNotFoundException(Caregiver.class.getSimpleName());
     }
 
+    public CaregiverDTO getByUserId(int id){
+        Optional<User> u = userRepository.findById(id);
+        if(u.isPresent()){
+            User user = u.get();
+            Caregiver caregiver = caregiverRepository.findByUserId(user.getId());
+            return new CaregiverDTO(caregiver);
+        } else {
+            throw new ResourceNotFoundException(Caregiver.class.getSimpleName());
+        }
+    }
+
 }

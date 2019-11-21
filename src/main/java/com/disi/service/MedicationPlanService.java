@@ -58,16 +58,16 @@ public class MedicationPlanService {
 
         }
 
-        public List<MedicationPlanDTO> findAllByPatientId(int patientId) {
+    public List<MedicationPlanDTO> findAllByPatientId(int patientId) {
 
-                List<MedicationPlanDTO> medicationPlans =  new ArrayList<>();
+        List<MedicationPlanDTO> medicationPlans =  new ArrayList<>();
 
-                Patient patient = patientRepository.findById(patientId);
-                List<MedicationPlan> medicationPlans1 = medicationPlanRepository.findAllByPatient(patient);
-                for (MedicationPlan m : medicationPlans1) {
-                    medicationPlans.add(new MedicationPlanDTO(m));
-                }
-                return medicationPlans;
+        Patient patient = patientRepository.findById(patientId);
+        List<MedicationPlan> medicationPlans1 = medicationPlanRepository.findAllByPatient(patient);
+        for (MedicationPlan m : medicationPlans1) {
+            medicationPlans.add(new MedicationPlanDTO(m));
+        }
+        return medicationPlans;
     }
 
         public List<MedicationPlanDTO> getAll(){
