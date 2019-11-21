@@ -9,7 +9,6 @@ import com.disi.service.MedicationPlanService;
 import com.disi.service.MedicationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -19,8 +18,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/medication")
 public class MedicationController {
+
     @Autowired
     private MedicationService medicationService;
+
+    @Autowired
     private MedicationPlanService medicationPlanService;
 
     @PostMapping("/new")
@@ -42,6 +44,12 @@ public class MedicationController {
             medicationDTOS.add(new ModelMapper().map(med, MedicationDTO.class));
         }
         return  medicationDTOS;
+    }
+
+    @GetMapping("/medplan")
+    public List<MedicationPlanDTO> getAll(){
+        List<MedicationPlanDTO> medplans = medicationPlanService.getAll();
+        return medplans;
     }
 
     @GetMapping()

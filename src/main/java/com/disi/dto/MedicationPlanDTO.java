@@ -17,6 +17,7 @@ public class MedicationPlanDTO {
 
     public MedicationPlanDTO (MedicationPlan medicationPlan) {
 
+        this.id = medicationPlan.getId();
         this.treatmentPeriod = medicationPlan.getPeriod();
         this.intakeIntervals = medicationPlan.getIntakeInterval();
         this.status = medicationPlan.getStatus();

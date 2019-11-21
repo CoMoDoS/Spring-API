@@ -23,7 +23,9 @@ public class MedicationPlanService {
 
     @Autowired
     private MedicationPlanRepository medicationPlanRepository;
+    @Autowired
     private MedicationRepository medicationRepository;
+    @Autowired
     private PatientRepository patientRepository;
 
     public MedicationPlanDTO add(MedicationPlanDTO medicationPlanDTO) {
@@ -67,6 +69,17 @@ public class MedicationPlanService {
                 }
                 return medicationPlans;
     }
+
+        public List<MedicationPlanDTO> getAll(){
+
+                List<MedicationPlan> medicationPlans = medicationPlanRepository.findAll();
+                List<MedicationPlanDTO> medicationPlanDTOS = new ArrayList<>();
+                for (MedicationPlan m : medicationPlans){
+                    medicationPlanDTOS.add(new MedicationPlanDTO(m));
+                }
+                return medicationPlanDTOS;
+    }
+
 
 
 
