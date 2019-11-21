@@ -16,14 +16,14 @@ public class Medication {
     @Column(name = "id", unique = true, nullable = false)
     private int id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
     @Column(name = "sideEffects")
     private String sideEffects;
 
-    @Column(name = "dosage", nullable = false)
-    private int dosage;
+    @Column(name = "dosage")
+    private String dosage;
 
     @Column(name = "status")
     private String status;
@@ -33,7 +33,7 @@ public class Medication {
 
     public Medication() {}
 
-    public Medication(String name, String sideEffects, int dosage, String status) {
+    public Medication(String name, String sideEffects, String dosage, String status) {
         this.name = name;
         this.sideEffects = sideEffects;
         this.dosage = dosage;
@@ -64,11 +64,11 @@ public class Medication {
         this.sideEffects = sideEffects;
     }
 
-    public int getDosage() {
+    public String getDosage() {
         return dosage;
     }
 
-    public void setDosage(int dosage) {
+    public void setDosage(String dosage) {
         this.dosage = dosage;
     }
 

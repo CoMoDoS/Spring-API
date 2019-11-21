@@ -37,7 +37,7 @@ public class Patient {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "caregiver_id")
+    @JoinColumn(name = "caregiver_id", referencedColumnName = "id")
     private Caregiver caregiver;
 
     @Column(name = "status")

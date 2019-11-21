@@ -15,7 +15,7 @@ public class Caregiver {
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
-    @Column(name = "name", unique = true, nullable = false, length = 200)
+    @Column(name = "name", unique = true)
     private String name;
 
     @Column(name = "birthdate" )

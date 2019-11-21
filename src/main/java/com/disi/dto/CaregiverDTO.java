@@ -1,5 +1,7 @@
 package com.disi.dto;
 
+import com.disi.models.Caregiver;
+
 import java.util.Date;
 
 public class CaregiverDTO {
@@ -13,6 +15,21 @@ public class CaregiverDTO {
     private String gender;
     private String address;
     private int user_id;
+
+    public CaregiverDTO(){}
+
+    public CaregiverDTO(Caregiver caregiver){
+        this.email = caregiver.getUser().getEmail();
+        this.password = caregiver.getUser().getPassword();
+        this.status = caregiver.getUser().getStatus();
+        this.type = caregiver.getUser().getType();
+        this.id = caregiver.getId();
+        this.name = caregiver.getName();
+        this.birthdate = caregiver.getBirthdate();
+        this.gender = caregiver.getGender();
+        this.address = caregiver.getAddress();
+        this.user_id = caregiver.getUser().getId();
+    }
 
     public String getEmail() {
         return email;

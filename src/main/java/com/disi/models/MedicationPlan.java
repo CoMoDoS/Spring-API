@@ -12,11 +12,11 @@ public class MedicationPlan {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "patientId",  nullable = false)
+    @JoinColumn(name = "patient_id",  nullable = false)
     private Patient patient;
 
     @ManyToOne
-    @JoinColumn(name = "medicationID",  nullable = false)
+    @JoinColumn(name = "medication_id",  nullable = false)
     private Medication medication;
 
     @Column(name = "intakeInterval")

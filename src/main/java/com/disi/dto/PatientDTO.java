@@ -1,5 +1,7 @@
 package com.disi.dto;
 
+import com.disi.models.Patient;
+
 import java.util.Date;
 
 public class PatientDTO {
@@ -17,6 +19,22 @@ public class PatientDTO {
     private String medicalRecord;
     private int user_id;
     private int caregiver_id;
+
+    public PatientDTO(){}
+    public PatientDTO(Patient patient){
+        this.id = patient.getId();
+        this.email = patient.getUser().getEmail();
+        this.password = patient.getUser().getPassword();
+        this.status = patient.getUser().getStatus();
+        this.type = patient.getUser().getType();
+        this.name = patient.getName();
+        this.birthdate = patient.getBirthdate();
+        this.gender = patient.getGender();
+        this.address = patient.getAddress();
+        this.medicalRecord = patient.getMedicalRecord();
+        this.user_id = patient.getUser().getId();
+        this.caregiver_id = patient.getCaregiver().getId();
+    }
 
     public int getId() {
         return id;

@@ -9,6 +9,7 @@ import com.disi.repository.UserRepository;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ContextAnnotationAutowireCandidateResolver;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,95 +31,71 @@ public class CaregiverService {
 
     public CaregiverDTO add(CaregiverDTO caregiverDTO){
         CaregiverDTO response = new CaregiverDTO();
-        User auxUser = new User();
-        auxUser.setEmail(caregiverDTO.getEmail());
-        auxUser.setPassword(caregiverPasswordEncoder().encode(caregiverDTO.getPassword()));
-        auxUser.setStatus("activ");
-        auxUser.setType("CAREGIVER");
-        User caregiverUser = userRepository.save(auxUser);
-        if(caregiverUser != null ){
+        User user = new User();
+        user.setEmail(caregiverDTO.getEmail());
+        user.setPassword(caregiverPasswordEncoder().encode(caregiverDTO.getPassword()));
+        user.setStatus("activ");
+        user.setType("CAREGIVER");
+        user = userRepository.save(user);
+        if(user != null ){
             Caregiver caregiver = new Caregiver();
             caregiver.setName(caregiverDTO.getName());
             caregiver.setGender(caregiverDTO.getGender());
             caregiver.setBirthdate(caregiverDTO.getBirthdate());
             caregiver.setAddress(caregiverDTO.getAddress());
             caregiver.setStatus("activ");
-            caregiver.setUser(caregiverUser);
+            caregiver.setUser(user);
             caregiver = caregiverRepository.save(caregiver);
-            response = createDTO(caregiverUser,caregiver);
-            return response;
+            return new CaregiverDTO(caregiver);
         }else {
             return null;
         }
-
     }
+
     public CaregiverDTO get(int id){
-        Optional<User> user = userRepository.findById(id);
-        if(user.isPresent()){
-            Caregiver caregiver = caregiverRepository.findByUserId(user.get().getId());
-
-            return createDTO(user.get(),caregiver);
-        }else{
+        Caregiver caregiver = caregiverRepository.findById(id);
+        if( caregiver != null )
+            return new CaregiverDTO(caregiver);
+        else
             throw new ResourceNotFoundException(Caregiver.class.getSimpleName());
-        }
     }
+
     public List<CaregiverDTO> getAll(){
-        List<User> users = userRepository.findAllByType("CAREGIVER");
         List<CaregiverDTO> response = new ArrayList<>();
-        for (User u:users) {
-            Caregiver caregiver = caregiverRepository.findByUserId(u.getId());
-            response.add(createDTO(u,caregiver));
+        List<Caregiver> caregivers = caregiverRepository.findAll();
+        for (Caregiver c : caregivers) {
+            response.add(new CaregiverDTO(c));
         }
         return response;
     }
+
     public CaregiverDTO update(int id, CaregiverDTO caregiverDTO){
-        CaregiverDTO response = new CaregiverDTO();
-        Optional<User> auxUser = userRepository.findById(id);
-        if(auxUser.isPresent()){
-            User user = new User();
-            user.setId(auxUser.get().getId());
-            user.setEmail(caregiverDTO.getEmail());
-            user.setPassword(caregiverPasswordEncoder().encode(caregiverDTO.getPassword()));
-            user.setType(caregiverDTO.getType());
-            user.setStatus(caregiverDTO.getStatus());
-            user = userRepository.save(user);
-            Caregiver caregiver = caregiverRepository.findByUserId(user.getId());
+        Caregiver caregiver = caregiverRepository.findById(id);
+        if(caregiver != null) {
+            caregiver.setName(caregiverDTO.getName());
+            caregiver.setStatus(caregiverDTO.getStatus());
             caregiver.setAddress(caregiverDTO.getAddress());
             caregiver.setBirthdate(caregiverDTO.getBirthdate());
             caregiver.setGender(caregiverDTO.getGender());
-            caregiver.setName(caregiverDTO.getName());
+            Optional<User> user = userRepository.findById(caregiverDTO.getUser_id());
+            if (user.isPresent())
+                caregiver.setUser(user.get());
             caregiver = caregiverRepository.save(caregiver);
-            return createDTO(user,caregiver);
-
-        }else{
-            throw new ResourceNotFoundException(Caregiver.class.getSimpleName());
+            return new CaregiverDTO(caregiver);
         }
+        else
+            throw new ResourceNotFoundException(Caregiver.class.getSimpleName());
+
     }
+
     public int delete(int id){
-        Optional<User> user = userRepository.findById(id);
-        if(user.isPresent()){
-            Caregiver caregiver = caregiverRepository.findByUserId(id);
-            caregiverRepository.delete(caregiver);
-            userRepository.delete(user.get());
-            return id;
-        }else{
+       Caregiver caregiver = caregiverRepository.findById(id);
+       if(caregiver != null){
+           caregiverRepository.delete(caregiver);
+           return id;
+       }
+       else
             throw new ResourceNotFoundException(Caregiver.class.getSimpleName());
-        }
-
     }
 
-    private CaregiverDTO createDTO(User user, Caregiver caregiver){
-        CaregiverDTO response = new CaregiverDTO();
-        response.setId(caregiver.getId());
-        response.setEmail(user.getEmail());
-        response.setPassword(user.getPassword());
-        response.setType(user.getType());
-        response.setStatus(user.getStatus());
-        response.setName(caregiver.getName());
-        response.setBirthdate(caregiver.getBirthdate());
-        response.setGender(caregiver.getGender());
-        response.setAddress(caregiver.getAddress());
-        response.setUser_id(user.getId());
-        return response;
-    }
 }

@@ -1,13 +1,8 @@
 package com.disi.service;
-
-import com.disi.dto.PatientDTO;
 import com.disi.errorHandler.EntityValidationException;
 import com.disi.errorHandler.ResourceNotFoundException;
-import com.disi.models.Caregiver;
-import com.disi.models.CustomUserDetails;
-import com.disi.models.Patient;
-import com.disi.models.User;
-import com.disi.repository.PatientRepository;
+import com.disi.models.*;
+import com.disi.repository.DoctorRepository;
 import com.disi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +24,7 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Autowired
-    private PatientRepository patientRepository;
+    private DoctorRepository doctorRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -209,7 +203,10 @@ public class UserService implements UserDetailsService {
 
     public void createAdmin(User user){
         user.setPassword(passwordEncoder().encode(user.getPassword()));
-        userRepository.save(user);
+
+        user = userRepository.save(user);
+        Doctor doctor = new Doctor("DEFAULT", user, "DEFAULT");
+        doctorRepository.save(doctor);
     }
 
 }

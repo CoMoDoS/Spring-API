@@ -33,8 +33,11 @@ public class UserController {
     @Autowired
     private PatientService patientService;
 
-
-    @PostMapping("/caregiver/add")
+    /*
+           CAREGIVER CRUD
+        ****************************************************************************
+    */
+    @PostMapping("/caregiver")
     public CaregiverDTO addCaregiver(@RequestBody CaregiverDTO caregiverDTO){
         return caregiverService.add(caregiverDTO);
     }
@@ -49,7 +52,7 @@ public class UserController {
         return caregiverService.getAll();
     }
 
-    @PutMapping("/caregiver/update")
+    @PutMapping("/caregiver")
     public CaregiverDTO updateCaregiver(@RequestParam int id, @RequestBody CaregiverDTO caregiverDTO){
         return caregiverService.update(id, caregiverDTO);
     }
@@ -58,7 +61,10 @@ public class UserController {
     public int deleteCaregiver(@RequestParam int id){
         return caregiverService.delete(id);
     }
-
+    /*
+           USER THINGS
+        ****************************************************************************
+    */
     @PostMapping("/inregistrare")
     public UserDTO addUser(@RequestBody User user) {
         user.setType("USER");
@@ -88,27 +94,47 @@ public class UserController {
         return new ModelMapper().map(user, UserDTO.class);
     }
 
-    @GetMapping("patient/get")
-    public PatientDTO getPatient(@RequestParam int id){
+    /*
+        PATIENT CRUD
+     ****************************************************************************
+     */
 
-        PatientDTO patient = patientService.getPatient(id);
+    @GetMapping("/patient")
+    public PatientDTO getPatient(@RequestParam int id){
+        PatientDTO patient = patientService.get(id);
         return new ModelMapper().map(patient, PatientDTO.class);
     }
 
     @GetMapping("/patient/all")
     public List<PatientDTO> getAllPatients(){
-
-        List<PatientDTO> users = patientService.getAllPatients();
-
+        List<PatientDTO> users = patientService.getAll();
         return users;
     }
 
-    @PostMapping("/patient/add")
+    @PostMapping("/patient")
     public PatientDTO addPatient(@RequestBody PatientDTO user){
-        return patientService.addPatient(user);
+        return patientService.add(user);
     }
 
+    @PutMapping("/patient")
+    public PatientDTO updatePatient(@RequestParam int id, @RequestBody PatientDTO patientDTO){
+        return patientService.edit(id, patientDTO);
+    }
 
+    @DeleteMapping("/patient")
+    public int deletePatient(@RequestParam int id){
+        return patientService.delete(id);
+    }
+
+    @GetMapping("/patient/byCaregiver")
+    public List<PatientDTO> getPatientsByCaregiverId(@RequestParam int id){
+        return patientService.getByCaregiver(id);
+    }
+
+    /*
+        CREATE DEFAULT ADMIN DOCTOR
+        ****************************************************************************
+    */
     @GetMapping("/medic")
     public void createAdmin(){
 

@@ -42,7 +42,7 @@ public class MedicationService {
             medToSave.setName(medication.getName());
             medToSave.setStatus(medication.getStatus());
             medToSave.setSideEffects(medication.getSideEffects());
-            medicationRepository.save(medToSave);
+            medToSave = medicationRepository.save(medToSave);
             return medToSave;
         }
         else
