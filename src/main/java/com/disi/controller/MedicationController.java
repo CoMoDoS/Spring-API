@@ -1,10 +1,15 @@
 package com.disi.controller;
 
 import com.disi.dto.MedicationDTO;
+import com.disi.dto.MedicationPlanDTO;
 import com.disi.models.Medication;
+import com.disi.models.MedicationPlan;
+import com.disi.repository.MedicationRepository;
+import com.disi.service.MedicationPlanService;
 import com.disi.service.MedicationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -16,11 +21,17 @@ import java.util.List;
 public class MedicationController {
     @Autowired
     private MedicationService medicationService;
+    private MedicationPlanService medicationPlanService;
 
     @PostMapping("/new")
     public MedicationDTO addMedication(@RequestBody MedicationDTO medDTO){
         Medication  medication = new ModelMapper().map(medDTO, Medication.class);
         return new ModelMapper().map(medicationService.addMedication(medication), MedicationDTO.class);
+    }
+    //CREATE MEDPLAN
+    @PostMapping("/medplan")
+    public MedicationPlanDTO addMedPlan(@RequestBody MedicationPlanDTO medplan){
+        return medicationPlanService.add(medplan);
     }
 
     @GetMapping("/all")

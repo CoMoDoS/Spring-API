@@ -1,6 +1,7 @@
 package com.disi.dto;
 
 import com.disi.models.Medication;
+import com.disi.models.MedicationPlan;
 
 import java.util.List;
 
@@ -8,10 +9,25 @@ public class MedicationPlanDTO {
 
     private int id;
     //private List<Medication> medPlan;
-    private int treatmentPeriod;
-    private int intakeIntervals;
+    private String treatmentPeriod;
+    private String intakeIntervals;
     private int id_patient;
     private int id_medication;
+    private String status;
+
+    public MedicationPlanDTO (MedicationPlan medicationPlan) {
+
+        this.treatmentPeriod = medicationPlan.getPeriod();
+        this.intakeIntervals = medicationPlan.getIntakeInterval();
+        this.status = medicationPlan.getStatus();
+        this.id_patient = medicationPlan.getPatient().getId();
+        this.id_medication = medicationPlan.getMedication().getId();
+
+    }
+
+    public MedicationPlanDTO () {
+
+    }
 
     public int getId() {
         return id;
@@ -29,19 +45,19 @@ public class MedicationPlanDTO {
         this.medPlan = medPlan;
     }
 */
-    public int getTreatmentPeriod() {
+    public String getTreatmentPeriod() {
         return treatmentPeriod;
     }
 
-    public void setTreatmentPeriod(int treatmentPeriod) {
+    public void setTreatmentPeriod(String treatmentPeriod) {
         this.treatmentPeriod = treatmentPeriod;
     }
 
-    public int getIntakeIntervals() {
+    public String getIntakeIntervals() {
         return intakeIntervals;
     }
 
-    public void setIntakeIntervals(int intakeIntervals) {
+    public void setIntakeIntervals(String intakeIntervals) {
         this.intakeIntervals = intakeIntervals;
     }
 
@@ -59,5 +75,13 @@ public class MedicationPlanDTO {
 
     public void setId_medication(int id_medication) {
         this.id_medication = id_medication;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

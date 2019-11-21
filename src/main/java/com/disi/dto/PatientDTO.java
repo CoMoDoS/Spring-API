@@ -21,6 +21,8 @@ public class PatientDTO {
     private int caregiver_id;
 
     public PatientDTO(){}
+
+
     public PatientDTO(Patient patient){
         this.id = patient.getId();
         this.email = patient.getUser().getEmail();

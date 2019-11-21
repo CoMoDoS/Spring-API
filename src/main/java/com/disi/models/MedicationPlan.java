@@ -30,12 +30,14 @@ public class MedicationPlan {
 
     public MedicationPlan(){}
 
-    public MedicationPlan(Patient patient, Medication medication, String intakeInterval, String period, String status) {
-        this.patient = patient;
-        this.medication = medication;
+    public MedicationPlan(String intakeInterval, String period, String status, Patient patient, Medication medication) {
+
         this.intakeInterval = intakeInterval;
         this.period = period;
         this.status = status;
+        this.patient = patient;
+        this.medication = medication;
+
     }
 
     public int getId() {

@@ -23,9 +23,9 @@ public class MedicationService {
     }
 
     public Medication getMedication(int id){
-        Optional<Medication> med = medicationRepository.findById(id);
-        if(med.isPresent())
-            return med.get();
+        Medication med = medicationRepository.findById(id);
+        if(med != null)
+            return med;
         else
             throw new ResourceNotFoundException(Medication.class.getSimpleName());
     }
@@ -35,9 +35,9 @@ public class MedicationService {
     }
 
     public Medication editMedication(int id, Medication medication){
-        Optional<Medication> medToBeEdited = medicationRepository.findById(id);
-        if(medToBeEdited.isPresent()){
-            Medication medToSave = medToBeEdited.get();
+        Medication medToBeEdited = medicationRepository.findById(id);
+        if(medToBeEdited != null){
+            Medication medToSave = medToBeEdited;
             medToSave.setDosage(medication.getDosage());
             medToSave.setName(medication.getName());
             medToSave.setStatus(medication.getStatus());
@@ -50,9 +50,9 @@ public class MedicationService {
     }
 
     public int deleteMedication(int id){
-        Optional<Medication> medication = medicationRepository.findById(id);
-        if(medication.isPresent()){
-            medicationRepository.delete(medication.get());
+        Medication medication = medicationRepository.findById(id);
+        if(medication != null){
+            medicationRepository.delete(medication);
             return id;
         }else{
             throw new ResourceNotFoundException(Medication.class.getSimpleName());

@@ -24,26 +24,48 @@ public class MedicationPlanService {
     @Autowired
     private MedicationPlanRepository medicationPlanRepository;
     private MedicationRepository medicationRepository;
-    private UserRepository userRepository;
     private PatientRepository patientRepository;
 
-     public void addMedicationPlan(int patientID, int medicationID){
+    public MedicationPlanDTO add(MedicationPlanDTO medicationPlanDTO) {
 
-        Patient patient = patientRepository.findById(patientID);
+        MedicationPlan medicationPlan = new MedicationPlan();
+        Patient patient;
+        Medication medication;
 
-        if(patient != null) {
 
-                MedicationPlanDTO medicationPlanDTO = new MedicationPlanDTO();
-                medicationPlanDTO.setId(1);
-                medicationPlanDTO.setId_patient(patientID);
-                medicationPlanDTO.setId_medication(medicationID);
-                medicationPlanDTO.setTreatmentPeriod(medicationPlanDTO.getTreatmentPeriod());
-                medicationPlanDTO.setIntakeIntervals(medicationPlanDTO.getIntakeIntervals());
+        if (medicationPlanDTO.getId_patient() != 0 && medicationPlanDTO.getId_medication() != 0) {
 
+            patient = patientRepository.findById(medicationPlanDTO.getId_patient());
+            medication = medicationRepository.findById(medicationPlanDTO.getId_medication());
+
+        }
+        else {
+                    patient = patientRepository.findById(1);
+                    medication = medicationRepository.findById(1);
+        }
+
+                medicationPlan.setPeriod(medicationPlanDTO.getTreatmentPeriod());
+                medicationPlan.setIntakeInterval(medicationPlanDTO.getIntakeIntervals());
+                medicationPlan.setStatus(medicationPlanDTO.getStatus());
+                medicationPlan.setPatient(patient);
+                medicationPlan.setMedication(medication);
+
+                medicationPlan = medicationPlanRepository.save(medicationPlan);
+                return new MedicationPlanDTO(medicationPlan);
 
 
         }
 
+        public List<MedicationPlanDTO> findAllByPatientId(int patientId) {
+
+                List<MedicationPlanDTO> medicationPlans =  new ArrayList<>();
+
+                Patient patient = patientRepository.findById(patientId);
+                List<MedicationPlan> medicationPlans1 = medicationPlanRepository.findAllByPatient(patient);
+                for (MedicationPlan m : medicationPlans1) {
+                    medicationPlans.add(new MedicationPlanDTO(m));
+                }
+                return medicationPlans;
     }
 
 

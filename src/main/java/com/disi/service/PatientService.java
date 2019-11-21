@@ -56,6 +56,7 @@ public class PatientService {
         user.setStatus(patientDTO.getStatus());
         user.setType("PATIENT");
         user =  userRepository.save(user);
+
         Patient patient = new Patient();
         Caregiver caregiver;
         if(user != null){
