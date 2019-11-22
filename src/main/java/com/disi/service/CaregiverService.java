@@ -92,6 +92,7 @@ public class CaregiverService {
        Caregiver caregiver = caregiverRepository.findById(id);
        if(caregiver != null){
            caregiverRepository.delete(caregiver);
+           userRepository.delete(caregiver.getUser());
            return id;
        }
        else

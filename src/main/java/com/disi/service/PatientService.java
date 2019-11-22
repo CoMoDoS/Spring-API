@@ -103,6 +103,7 @@ public class PatientService {
         Patient patient = patientRepository.findById(id);
         if(patient != null ){
             patientRepository.delete(patient);
+            userRepository.delete(patient.getUser());
             return id;
         }
 
